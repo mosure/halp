@@ -817,6 +817,21 @@ class UndirectedHypergraph(object):
 
         in_file.close()
 
+    def format(self, delim=',', sep='\t'):
+        result = ''
+
+        for hyperedge_id in self.get_hyperedge_id_set():
+            # Write each node to the line, separated by delim
+            for node in self.get_hyperedge_nodes(hyperedge_id):
+                result += node + delim
+            # Remove last (extra) delim
+            result = line[:-1]
+
+            # Write the weight to the line and end the line
+            result += sep + str(self.get_hyperedge_weight(hyperedge_id)) + "\n"
+
+        return result
+
     # TODO: make writing more extensible (attributes, variable ordering, etc.)
     def write(self, file_name, delim=',', sep='\t'):
         """Writes an undirected hypergraph from a file, where nodes are
@@ -842,17 +857,6 @@ class UndirectedHypergraph(object):
         # write first header line
         out_file.write("nodes" + sep + "weight\n")
 
-        for hyperedge_id in self.get_hyperedge_id_set():
-            line = ""
-            # Write each node to the line, separated by delim
-            for node in self.get_hyperedge_nodes(hyperedge_id):
-                line += node + delim
-            # Remove last (extra) delim
-            line = line[:-1]
-
-            # Write the weight to the line and end the line
-            line += sep + str(self.get_hyperedge_weight(hyperedge_id)) + "\n"
-
-            out_file.write(line)
+        out_file.write(format(delim, sep))
 
         out_file.close()

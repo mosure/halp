@@ -17,7 +17,7 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 setup(
-    name="halp",
+    name="halp-mosure",
     packages=find_packages(),
     version="1.0.0",
     description = "Hypergraph Algorithms Package",
